@@ -108,6 +108,11 @@ ATURAN DAN INSTRUKSI ANALISIS
   - Jika pertanyaan tidak sesuai dengan konteks data, tetap berikan jawaban relevan dengan memanfaatkan dataset.
   - Jawaban harus jelas, ringkas, dan fokus sesuai sheet terkait.
 
+- Rules:
+    - jika pertanyaan tidak menyebutkan pada unit tertentu, maka jawab berdasarkan total keseluruhan
+    - jika pertanyaan tidak menyebutkan bulan tertentu, maka gunakan data terbaru bulan ini
+    - jika ditanya mengenai keseluruhan, maka jawab berdasarkan total keseluruhan
+
 ============================================================
 OUTPUT
 ============================================================
