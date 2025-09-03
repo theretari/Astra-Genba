@@ -1,8 +1,12 @@
+import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_experimental.agents import create_pandas_dataframe_agent
 import pandas as pd
+from dotenv import load_dotenv
 
-excel_file = "data-copy.xlsx"
+load_dotenv()
+
+excel_file = "data-simplified.xlsx"
 
 try:
     all_sheets = pd.read_excel(excel_file, sheet_name=None)
@@ -39,6 +43,11 @@ dan manpower strategy.
 9. **Manpower Performance** → Data sumber daya manusia di penjualan (jumlah salesman, counter, dll.) per bulan.
 
 Instruksi:
+- Semua data berada pada tahun 2025
+- Revenue unit itu bisa dibaca dari sheet **Sales Performance**.
+- Revenue sparepart itu bisa dibaca dari sheet **Part Performance**.
+- Revenue keseluruhan itu bisa dibaca dari sheet **Financial Performance**.
+- Untuk target pendapatan bulanan bisa dibaca dari sheet **EUS Plan Bulanan** bagian total dari Revenue Unit [Nama Unit].
 - Jika user bertanya soal prospek, SPK, DO, atau customer → gunakan **SPK DO** pada kolom Qty Unit Prospect, SPK, dan DO.
 - Jika user bertanya soal funnel, tahapan validasi, atau efektivitas sales → gunakan **Summary Sales Funneling**.
 - Jika pertanyaan tentang target tahunan per wilayah → gunakan **SUS Plan Tahun**.
@@ -57,7 +66,7 @@ Selalu berikan jawaban yang jelas, ringkas, dan gunakan data dari sheet yang rel
 """
 
 llm = ChatGoogleGenerativeAI(
-    google_api_key="AIzaSyC4JLYQENQOP1wVU1QhaRdC4wScJnHRkyk", 
+    google_api_key=os.getenv("GOOGLE_API_KEY"), 
     model="gemini-2.0-flash", 
     temperature=0
 )
@@ -70,10 +79,12 @@ agent_executor = create_pandas_dataframe_agent(
     allow_dangerous_code=True,
     prefix=system_prompt,
 )
-agent_executor.invoke("berapa total penjualan LCV di bulan januari 2025? apakah sudah mencapai target?")
-agent_executor.invoke("berapa total SPK dan DO penjualan seluruh variant pada nama cabang Dummy Isuzu-Bandung pada bulan Juli?")
-agent_executor.invoke("Berikan 3 alasan yang paling sering muncul untuk drop SPK ke DO pada seluruh cabang")
-agent_executor.invoke("berikan total sales pada bulan juli dan insightnya")
+
+# Example queries to test the agent focusing in revenue performance
+agent_executor.invoke("berapa total penjualan Traga di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya")
+agent_executor.invoke("berapa total pendapatan secara keseluruhan baik dari unit, services, dan parts di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya dan rekomendasi")
+agent_executor.invoke("Tunjukkan bagian mana dari segi services, part, atau unit yang memberikan revenue tertinggi dan bagian mana yang terendah bulan Juli baik secara keseluruhan, revenue unit, parts dan services pada bulan Juli?")
+agent_executor.invoke("Unit sales mana yang memberikan sumbangan revenue tertinggi dan terendah pada bulan Juli?")
 
 # print(response)
 
