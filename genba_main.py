@@ -154,8 +154,9 @@ agent_executor = create_pandas_dataframe_agent(
 # agent_executor.invoke("berapa total pendapatan secara keseluruhan baik dari unit, services, dan parts di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya dan rekomendasi")
 # agent_executor.invoke("Tunjukkan bagian mana dari segi services, part, atau unit yang memberikan revenue tertinggi dan bagian mana yang terendah bulan Juli baik secara keseluruhan, revenue unit, parts dan services pada bulan Juli?")
 # agent_executor.invoke("Unit sales mana yang memberikan sumbangan revenue tertinggi dan terendah pada bulan Juli?")
-agent_executor.invoke("apa arti angka yang ada pada performa finansial pada unit N-Series dari segi revenue selama dari bulan januari hingga april? berikan insightnya dan rekomendasinya")
-# agent_executor.invoke("berapa banyak total DO yang didrop pada bulan juli? berikan top 3 alasan dropnya dan rekomendasinya!")
+# agent_executor.invoke("apa arti angka yang ada pada performa finansial pada unit N-Series dari segi revenue selama dari bulan januari hingga april? berikan insightnya dan rekomendasinya")
+# agent_executor.invoke("berapa banyak total DO yang didrop pada bulan juli? berikan top 3 alasan dropnya dan rekomendasinya!") belum aman
+agent_executor.invoke("apakah salesman sudah produktif pada bulan juli? apakah semua target penjualan unit tercapai?")
 # print(response)
 
    
