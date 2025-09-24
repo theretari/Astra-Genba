@@ -81,7 +81,15 @@ STRUKTUR DATA (SHEETS & DESKRIPSI)
 ATURAN DAN INSTRUKSI ANALISIS
 ============================================================
 
+- Saat mengeksekusi kode Python, selalu lakukan:
+   import pandas as pd
+   import numpy as np
+- Jangan pernah membuat data dummy dengan StringIO atau dict manual.
+- Selalu gunakan dataframe yang sudah tersedia dari file Excel (list_of_dfs).
+- Untuk sheet SPK DO, gunakan kolom 'SPK' sebagai jumlah SPK dan 'Actual DO' sebagai jumlah DO.
 - Semua analisis harus berdasarkan data tahun 2025.
+- Format tanggal input pada sheets "SPK DO" adalah mm/dd/yy atau m/d/yy atau m/dd/yy abaikan perhitungan yang O/S
+- Rumus konversi SPK ke DO adalah (kolom SPK/kolom Actual DO)*100 namun masing-masing angka string diubah dulu ke double dan kalau kosong replace dengan 0 nah hasil ditampilkan dalam bentuk persen
 - Mapping data:
   - Revenue Unit            → Sales Performance
   - Revenue Sparepart       → Part Performance
@@ -107,6 +115,7 @@ ATURAN DAN INSTRUKSI ANALISIS
   - Jawaban harus berdasarkan data yang tersedia (tidak boleh asumsi di luar data).
   - Jika pertanyaan tidak sesuai dengan konteks data, tetap berikan jawaban relevan dengan memanfaatkan dataset.
   - Jawaban harus jelas, ringkas, dan fokus sesuai sheet terkait.
+  - Jika jawaban menggunakan perhitungan python tolong tampilkan hasil angkanya lalu olah interpretasi sesuai dengan laporan yang ada
 
 - Rules:
     - jika pertanyaan tidak menyebutkan pada unit tertentu, maka jawab berdasarkan total keseluruhan
@@ -120,6 +129,7 @@ Setiap jawaban yang kamu berikan harus:
 1. Jelas dan ringkas.
 2. Berbasis pada sheet yang relevan.
 3. Tidak berisi asumsi atau data di luar file yang tersedia.
+4. Jangan hanya memberikan langkah-langkahnya saja
 
 """
 
@@ -129,6 +139,7 @@ llm = ChatGoogleGenerativeAI(
     temperature=0
 )
 
+# print(list_of_dfs)
 agent_executor = create_pandas_dataframe_agent(
     llm,
     list_of_dfs, 
@@ -139,11 +150,12 @@ agent_executor = create_pandas_dataframe_agent(
 )
 
 # Example queries to test the agent focusing in revenue performance
-agent_executor.invoke("berapa total penjualan Traga di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya")
-agent_executor.invoke("berapa total pendapatan secara keseluruhan baik dari unit, services, dan parts di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya dan rekomendasi")
-agent_executor.invoke("Tunjukkan bagian mana dari segi services, part, atau unit yang memberikan revenue tertinggi dan bagian mana yang terendah bulan Juli baik secara keseluruhan, revenue unit, parts dan services pada bulan Juli?")
-agent_executor.invoke("Unit sales mana yang memberikan sumbangan revenue tertinggi dan terendah pada bulan Juli?")
-
+# agent_executor.invoke("berapa total penjualan Traga di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya")
+# agent_executor.invoke("berapa total pendapatan secara keseluruhan baik dari unit, services, dan parts di bulan Juli 2025? apakah sudah mencapai target? berikan insightnya dan rekomendasi")
+# agent_executor.invoke("Tunjukkan bagian mana dari segi services, part, atau unit yang memberikan revenue tertinggi dan bagian mana yang terendah bulan Juli baik secara keseluruhan, revenue unit, parts dan services pada bulan Juli?")
+# agent_executor.invoke("Unit sales mana yang memberikan sumbangan revenue tertinggi dan terendah pada bulan Juli?")
+agent_executor.invoke("apa arti angka yang ada pada performa finansial pada unit N-Series dari segi revenue selama dari bulan januari hingga april? berikan insightnya dan rekomendasinya")
+# agent_executor.invoke("berapa banyak total DO yang didrop pada bulan juli? berikan top 3 alasan dropnya dan rekomendasinya!")
 # print(response)
 
    
